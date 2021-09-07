@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 const (
 	// DriverSqlite3 ...

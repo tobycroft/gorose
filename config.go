@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 // Config ...
 type Config struct {

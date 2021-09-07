@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 import (
 	"errors"

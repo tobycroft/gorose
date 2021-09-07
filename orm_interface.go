@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 // IOrm ...
 type IOrm interface {

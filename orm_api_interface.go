@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 // IOrmApi ...
 type IOrmApi interface {

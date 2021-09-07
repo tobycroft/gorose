@@ -1,4 +1,4 @@
-package gorose_pro
+package gorose
 
 // NewBuilder 获取builder
 func NewBuilder(driver string) IBuilder {
