@@ -277,14 +277,14 @@ func (b *BuilderDefault) parseData(operType string, data []map[string]interface{
 		for _, key := range insertFields {
 			placeholder := b.GetPlaceholder()
 			if item[key] == nil {
-				if operType == "insert" {
+				if operType == "insert" || operType == "replace" {
 					// 放入占位符
 					insertValuesSub = append(insertValuesSub, placeholder)
 				}
 				// 保存真正的值为null
 				b.SetBindValues("null")
 			} else {
-				if operType == "insert" {
+				if operType == "insert" || operType == "replace" {
 					// 放入占位符
 					insertValuesSub = append(insertValuesSub, placeholder)
 				}
