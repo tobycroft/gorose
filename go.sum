@@ -14,11 +14,14 @@ github.com/envoyproxy/go-control-plane v0.9.4 h1:rEvIZUSZ3fx39WIi3JkQqQBitGwpELB
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/protoc-gen-validate v0.1.0 h1:EQciDnbrYxy13PgWoY8AqoxGiPrpgBZ1R8UNe3ddc+A=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
+github.com/gohouse/e v0.0.0-20200924054813-3cf103d33981/go.mod h1:1rpOAa2dVfkpkhb9vgH5XHcvyCh/NJCx1bkudcX/TcM=
 github.com/gohouse/e v0.0.3-rc.0.20200724104652-25ebf8c9c305 h1:wLaXYLITR034c39SArpd7Y3krD7F2qRx9qg9w59wvXM=
 github.com/gohouse/e v0.0.3-rc.0.20200724104652-25ebf8c9c305/go.mod h1:1rpOAa2dVfkpkhb9vgH5XHcvyCh/NJCx1bkudcX/TcM=
 github.com/gohouse/golib v0.0.0-20200312063614-067523159413/go.mod h1:80IWOo3CRajPn7UsEtJdFwYbJ0zs4Je5RNE4EfyR0BM=
 github.com/gohouse/golib v0.0.0-20200727025018-43fec7d17e79 h1:R5Zdy/CBTqppDoUCwH33RugxEe14TPJFr8JwqkNSJKQ=
 github.com/gohouse/golib v0.0.0-20200727025018-43fec7d17e79/go.mod h1:uvI6dMBJXJI1hR+0ZI/v7/NTVNpj7hSQhcCnGXjY/GI=
+github.com/gohouse/golib v0.0.0-20210711163732-a5c22059eb75 h1:h3OeAIM0RYEmnHWAddCPvwEGgl+VV9m0VXs5hAxVfNI=
+github.com/gohouse/golib v0.0.0-20210711163732-a5c22059eb75/go.mod h1:56/OY5+6gxMpPBhvbxDfb3fFxfc8FpaPoXZX2ie6GMk=
 github.com/gohouse/t v0.0.0-20200724104622-78e2ef6ec88c/go.mod h1:JZl4QiZrsKArORKRFgfwSiMpMR32C4pvTky0FlGs88U=
 github.com/gohouse/t v0.0.0-20201007094014-630049a6bfe9 h1:dRFRgLiddQthn4ZJqDk/R1IaXc626TRqAZZYC6L7HGo=
 github.com/gohouse/t v0.0.0-20201007094014-630049a6bfe9/go.mod h1:kUDPW94gfrQKjvhhqW1l0rGCJ/1BUnhD4AIzdEmnI6M=
