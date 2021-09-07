@@ -7,6 +7,7 @@ type IOrmQuery interface {
 	Select() error
 	// 获取一条结果并返回, 只有当传入的table对象是字符串时生效
 	First() (Data, error)
+	Find() (Data, error)
 	// 获取多条结果并返回, 只有当传入的table对象是字符串时生效
 	Get() ([]Data, error)
 	// 如果你不需要完整的一行，可以使用 value 方法从结果中获取单个值，该方法会直接返回指定列的值：

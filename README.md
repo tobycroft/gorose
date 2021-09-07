@@ -23,7 +23,7 @@
 [中文 readme](README.md) 
 
 ## 文档
-[Tuuz版文档](https://www.kancloud.cn/fizz/gorose-2/1135835)
+[文档](./doc/intro.md)
 
 
 ## 简介
@@ -33,27 +33,11 @@ gorose for Tuuz版是我从飞哥接手过来的项目，知道人家更新了�
 因为原版框架已经很优秀了，所以这里只会做一些更新，在架构上不会做出大调整（如果大家满意这个Pro版，请Star）
 
 
-gorosepro 采用模块化架构, 通过interface的api通信,严格的上层依赖下层.每一个模块都可以拆卸, 甚至可以自定义为自己喜欢的样子.  
-模块关系图如下:  ![gorose-2.0-design](https://i.loli.net/2019/06/19/5d0a1273f12ef86624.jpg)
-
 ## 安装
-- go.mod
+- go.mod 中添加
 ```bash
 require github.com/tobycroft/gorose-pro v1.2.5
 ```
-> 重要的事情说三遍!  
-    重要的事情说三遍!  
-    重要的事情说三遍!  
-    使用的时候必须`import "github.com/tobycroft/gorose-pro"`方可正常使用.  
-    千万不要漏掉末尾的`v2`,这个是vgo的规定  
-
-> 如果使用最新更新,没有tag的话,可以使用`require github.com/tobycroft/gorose-pro/v2 master`,执行`go mod tidy`后,会自动获取最新提交的版本hash最为版本号,最终效果如:`github.com/tobycroft/gorose-pro/v2 v2.1.6-0.20200403045240-167d9094d7bd`    
-
-- docker
-```bash
-docker run -it --rm ababy/gorose sh -c "go run main.go"
-```
-> docker 镜像: [ababy/gorose](https://cloud.docker.com/u/ababy/repository/docker/ababy/gorose), docker镜像包含了gorose所必须的包和运行环境, [查看`Dockerfile`](https://github.com/docker-box/gorose/blob/master/master/golang/Dockerfile)   
 
 - go get  
 ```bash
@@ -68,7 +52,7 @@ go get -u github.com/tobycroft/gorose-pro
 - mssql : https://github.com/denisenkom/go-mssqldb  
 - clickhouse : https://github.com/kshvakov/clickhouse
 
-## api预览
+## api预览(请参考Thinkphp文档)
 ```go
 db.Table().Fields().Where().GroupBy().Having().OrderBy().Limit().Select()
 db.Table().Data().Insert()

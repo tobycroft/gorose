@@ -38,6 +38,19 @@ func (dba *Orm) First() (result Data, err error) {
 	return
 }
 
+func (dba *Orm) Find() (result Data, err error) {
+	dba.GetIBinder().SetBindType(OBJECT_STRING)
+	err = dba.Limit(1).Select()
+	if err != nil {
+		return
+	}
+	res := dba.GetISession().GetBindAll()
+	if len(res) > 0 {
+		result = res[0]
+	}
+	return
+}
+
 // Get : select more rows , relation limit set
 func (dba *Orm) Get() (result []Data, err error) {
 	dba.GetIBinder().SetBindType(OBJECT_STRING)
