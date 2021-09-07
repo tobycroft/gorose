@@ -37,3 +37,17 @@ func (self *Interface) Api_find(group_id, user_id, dj_id interface{}) gorose.Dat
 
 
 find方法十分的简单，没有难度，相信大家会很快上手
+
+
+
+0.[基础准备](./base.md)
+
+1.[select方法](./select.md)
+
+3.[update方法](./update.md)
+
+4.[delete方法](./delete.md)
+
+5.[复杂数据方法/join/sum/递增](./join.md)
+
+6.[安全相关](./security.md)
