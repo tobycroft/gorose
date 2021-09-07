@@ -1,8 +1,8 @@
 # GoRose ORM
 
-[![GoDoc](https://godoc.org/github.com/tobycroft/gorose?status.svg)](https://godoc.org/github.com/tobycroft/gorose/v2)
-[![Go Report Card](https://goreportcard.com/badge/github.com/tobycroft/gorose/v2)](https://goreportcard.com/report/github.com/tobycroft/gorose/v2)
-[![GitHub release](https://img.shields.io/github/release/tobycroft/gorose.svg)](https://github.com/tobycroft/gorose/v2/releases/latest)
+[![GoDoc](https://godoc.org/github.com/tobycroft/gorose-pro?status.svg)](https://godoc.org/github.com/tobycroft/gorose-pro/v2)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tobycroft/gorose-pro/v2)](https://goreportcard.com/report/github.com/tobycroft/gorose-pro/v2)
+[![GitHub release](https://img.shields.io/github/release/tobycroft/gorose.svg)](https://github.com/tobycroft/gorose-pro/v2/releases/latest)
 [![Gitter](https://badges.gitter.im/tobycroft/gorose.svg)](https://gitter.im/gorose/wechat)
 ![GitHub](https://img.shields.io/github/license/tobycroft/gorose?color=blue)
 ![GitHub All Releases](https://img.shields.io/github/downloads/tobycroft/gorose/total?color=blue)
@@ -39,15 +39,15 @@ gorosepro 采用模块化架构, 通过interface的api通信,严格的上层依�
 ## 安装
 - go.mod
 ```bash
-require github.com/tobycroft/gorose/v2 v2.1.10
+require github.com/tobycroft/gorose-pro/v2 v2.1.10
 ```
 > 重要的事情说三遍!  
     重要的事情说三遍!  
     重要的事情说三遍!  
-    使用的时候必须`import "github.com/tobycroft/gorose"`方可正常使用.  
+    使用的时候必须`import "github.com/tobycroft/gorose-pro"`方可正常使用.  
     千万不要漏掉末尾的`v2`,这个是vgo的规定  
 
-> 如果使用最新更新,没有tag的话,可以使用`require github.com/tobycroft/gorose/v2 master`,执行`go mod tidy`后,会自动获取最新提交的版本hash最为版本号,最终效果如:`github.com/tobycroft/gorose/v2 v2.1.6-0.20200403045240-167d9094d7bd`    
+> 如果使用最新更新,没有tag的话,可以使用`require github.com/tobycroft/gorose-pro/v2 master`,执行`go mod tidy`后,会自动获取最新提交的版本hash最为版本号,最终效果如:`github.com/tobycroft/gorose-pro/v2 v2.1.6-0.20200403045240-167d9094d7bd`    
 
 - docker
 ```bash
@@ -57,7 +57,7 @@ docker run -it --rm ababy/gorose sh -c "go run main.go"
 
 - go get  
 ```bash
-go get -u github.com/tobycroft/gorose/v2
+go get -u github.com/tobycroft/gorose-pro/v2
 ```
 
 ## 支持驱动
@@ -81,7 +81,7 @@ db.Table().Where().Delete()
 package main
 import (
 	"fmt"
-	"github.com/tobycroft/gorose"
+	"github.com/tobycroft/gorose-pro"
 	_ "github.com/mattn/go-sqlite3"
 )
 var err error
@@ -194,7 +194,7 @@ fmt.Println(err)
 fmt.Println(u)
 fmt.Println(session.LastSql())
 ```
-> struct字段顺序需要跟`select *`内的表结构字段顺序一致(也可以手动指定要查询的字段), 具体原因参考 [https://github.com/tobycroft/gorose/issues/136](https://github.com/tobycroft/gorose/issues/136)  
+> struct字段顺序需要跟`select *`内的表结构字段顺序一致(也可以手动指定要查询的字段), 具体原因参考 [https://github.com/tobycroft/gorose-pro/issues/136](https://github.com/tobycroft/gorose-pro/issues/136)  
 
 原生增删改操作
 ```go
@@ -292,7 +292,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tobycroft/gorose"
+	"github.com/tobycroft/gorose-pro"
 	_ "github.com/mattn/go-sqlite3"
 )
 
