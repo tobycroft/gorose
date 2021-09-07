@@ -8,7 +8,7 @@ type IOrmExecute interface {
 	InsertGetId(data ...interface{}) (int64, error)
 	Update(data ...interface{}) (int64, error)
 	// updateOrInsert
-
+	Replace(data ...interface{}) (int64, error)
 	// increment,decrement
 	// 在操作过程中你还可以指定额外的列进行更新：
 	Increment(args ...interface{}) (int64, error)
