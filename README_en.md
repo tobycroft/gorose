@@ -39,7 +39,7 @@ The module diagram is as follows:
 ```bash
 require github.com/gohouse/gorose/v2 v2.1.10
 ```
-> you should use it like `import "github.com/gohouse/gorose/v2"`  
+> you should use it like `import "github.com/tobycroft/gorose"`  
     don't forget the `v2` in the end
 
 - docker
@@ -74,7 +74,7 @@ db.Table().Where().Delete()
 package main
 import (
 	"fmt"
-	"github.com/gohouse/gorose/v2"
+	"github.com/tobycroft/gorose"
 	_ "github.com/mattn/go-sqlite3"
 )
 var err error
@@ -285,7 +285,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gohouse/gorose/v2"
+	"github.com/tobycroft/gorose"
 	_ "github.com/mattn/go-sqlite3"
 )
 
