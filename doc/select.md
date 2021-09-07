@@ -46,6 +46,33 @@ func Api_select_have(group_id, user_id interface{}) []gorose.Data {
 那么这个时候使用单一的where的map就无法正常的将代码写清楚了，那么这个时候，你就可以再次使用where的指定模式
 来再次对范围内容进行限定，如上
 
+好的，接下来来一个升级的
+
+```go
+func (self *Interface) Api_join_select(group_id, user_id interface{}) []gorose.Data {
+	db := self.Db.Table(table)
+	where := map[string]interface{}{
+		"group_id": group_id,
+		"user_id":  user_id,
+	}
+	db.Where(where)
+	db.Join("coin on coin.id=cid")
+	db.Where("amount", ">", 0)
+	ret, err := db.Get()
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return nil
+	} else {
+		return ret
+	}
+}
+```
+
+这里来一个join方法，join方法是select方法中的骚操作，在Thinkphp中，有model方法来帮助我们做一对多多对一
+
+那么用Gorose，we are on our own!难度不大，大家参考下就行了
+
+使用数据库ORM很多时候需要我们自己处理数据，不过这也让我们对数据优化可以有更多的认识和提升
 
 
 0.[基础准备](./base.md)
@@ -56,6 +83,6 @@ func Api_select_have(group_id, user_id interface{}) []gorose.Data {
 
 4.[delete方法](./delete.md)
 
-5.[复杂数据方法/join/sum/递增](./join.md)
+5.[insert方法](./insert.md)
 
 6.[安全相关](./security.md)

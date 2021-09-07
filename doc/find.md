@@ -38,6 +38,26 @@ func (self *Interface) Api_find(group_id, user_id, dj_id interface{}) gorose.Dat
 
 find方法十分的简单，没有难度，相信大家会很快上手
 
+find方法中没有太多骚操作，除此之外还有value拉sum拉之类的方法，大同小异
+
+```go
+func Api_value_balance(group_id, user_id interface{}) interface{} {
+	db := tuuz.Db().Table(table)
+	where := map[string]interface{}{
+		"group_id": group_id,
+		"user_id":  user_id,
+	}
+	db.Where(where)
+	ret, err := db.Value("balance")
+	if err != nil {
+		Log.Dbrr(err, tuuz.FUNCTION_ALL())
+		return nil
+	} else {
+		return ret
+	}
+}
+```
+
 
 
 0.[基础准备](./base.md)

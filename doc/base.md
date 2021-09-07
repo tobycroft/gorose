@@ -97,6 +97,6 @@ A->开始事务->find[输出123]->update(A,456)->find[输出456]->提交事务->
 
 4.[delete方法](./delete.md)
 
-5.[复杂数据方法/join/sum/递增](./join.md)
+5.[insert方法](./insert.md)
 
 6.[安全相关](./security.md)
