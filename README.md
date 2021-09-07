@@ -18,55 +18,59 @@
  \______|  \______/  | _| `._____| \______/  |_______/    |_______|
 ```
 
-## 翻译(translation)  
-[English readme](README_en.md) |
-[中文 readme](README.md) 
-
 ## 文档
-[文档](./doc/intro.md)
 
+如下的开发实例我已经在自己的项目和多个商业项目中跑过了，代码上没有问题，在书写或者思想上如果和你有冲突你可以用你自己的模式来，这里只是给刚玩的朋友准备的
+
+[文档开发实例](./doc/intro.md)
 
 ## 简介
-gorose for Tuuz版是我从飞哥接手过来的项目，知道人家更新了好几版然后可能有点没兴趣了，但是我是做项目的
-很多时候如果原作者不更新，我项目中有很多麻烦事都没办法解决，所以很无奈只能继续扛旗向前走了
+
+gorose for Tuuz版是我从飞哥接手过来的项目，知道人家更新了好几版然后可能有点没兴趣了，但是我是做项目的 很多时候如果原作者不更新，我项目中有很多麻烦事都没办法解决，所以很无奈只能继续扛旗向前走了
 
 因为原版框架已经很优秀了，所以这里只会做一些更新，在架构上不会做出大调整（如果大家满意这个Pro版，请Star）
 
-
 ## 安装
+
 - go.mod 中添加
+
 ```bash
 require github.com/tobycroft/gorose-pro v1.2.5
 ```
 
-- go get  
+- go get
+
 ```bash
 go get -u github.com/tobycroft/gorose-pro
 ```
 
 ## 支持驱动
-- mysql : https://github.com/go-sql-driver/mysql  
-- sqlite3 : https://github.com/mattn/go-sqlite3  
-- postgres : https://github.com/lib/pq  
-- oracle : https://github.com/mattn/go-oci8  
-- mssql : https://github.com/denisenkom/go-mssqldb  
+
+- mysql : https://github.com/go-sql-driver/mysql
+- sqlite3 : https://github.com/mattn/go-sqlite3
+- postgres : https://github.com/lib/pq
+- oracle : https://github.com/mattn/go-oci8
+- mssql : https://github.com/denisenkom/go-mssqldb
 - clickhouse : https://github.com/kshvakov/clickhouse
 
-## api预览(请参考Thinkphp文档)
+## api预览(详情请参阅文档，或如下演示)
+
 ```go
-db.Table().Fields().Where().GroupBy().Having().OrderBy().Limit().Select()
-db.Table().Data().Insert()
-db.Table().Data().Where().Update()
-db.Table().Where().Delete()
+db.Table("table_name").Fields().Where().GroupBy().Having().OrderBy().Limit().Select()
+db.Table(&ModelStruct).Data().Insert()
+db.Table(....).Data().Where().Update()
+db.Table(....).Where().Delete()
 ```
 
 ## Thinkphp模式用法示例
+
 ```go
 package main
+
 import (
-	"fmt"
-	"github.com/tobycroft/gorose-pro"
-	_ "github.com/mattn/go-sqlite3"
+    "fmt"
+    "github.com/tobycroft/gorose-pro"
+    _ "github.com/mattn/go-sqlite3"
 )
 
 func dsn() string {
@@ -86,7 +90,7 @@ func DbConfig() *gorose.Config {
     conf.SetMaxIdleConns = 90
     conf.SetMaxOpenConns = 300
     conf.Prefix = ""
-    conf.Dsn = dsn_local()
+    conf.Dsn = dsn()
     return &conf
 }
 
@@ -174,6 +178,7 @@ func Api_find(qq interface{}) gorose.Data {
         return ret
     }
 }
+
 //查询多条
 func Api_select(qq interface{}) []gorose.Data {
     db := tuuz.Db().Table(table)
@@ -193,101 +198,74 @@ func Api_select(qq interface{}) []gorose.Data {
 ```
 
 ## 使用建议
-如果你的数据返回处理比较复杂，并且是“Long Term”项目，这里建议用原版Gorose方法处理，因为我大多数是外包项目，
-Thinkphp类似的操作方法可以大大降低编码复杂性
 
-另外如上的单例模式极好理解，你也可以使用你自己的方式来编写
+如果你的数据返回处理比较复杂，并且是“Long Term”项目，这里建议用原版Gorose方法处理，因为我大多数是外包项目， Thinkphp类似的操作方法可以大大降低编码复杂性，性能上并不会差太多，请放心
+
+单例模式极好理解，你可以使用我的方式来解耦，或者也可以使用你自己喜欢的方式
 
 ## 配置和链接初始化
-简单配置
+
+简单配置DSN
+
 ```go
-var configSimple = &gorose.Config{
-	Driver: "sqlite3", 
-	Dsn: "./db.sqlite",
-}
+var conf gorose.Config
+conf.Driver = "mysql"
+conf.SetMaxIdleConns = 90
+conf.SetMaxOpenConns = 300
+conf.Prefix = ""
+conf.Dsn = dsn()
+return &conf
 ```
+
 更多配置, 可以配置集群,甚至可以同时配置不同数据库在一个集群中, 数据库会随机选择集群的数据库来完成对应的读写操作, 其中master是写库, slave是读库, 需要自己做好主从复制, 这里只负责读写
+
 ```go
-var config1 = gorose.Config{Dsn: "./db.sqlite"}
-var config2 = gorose.Config{Dsn: "./db2.sqlite"}
-var config3 = gorose.Config{Dsn: "./db3.sqlite"}
-var config4 = gorose.Config{Dsn: "./db4.sqlite"}
+var config1 = gorose.Config{Dsn: 上面的dsn}
+var config2 = gorose.Config{Dsn:  上面的dsn}
+var config3 = gorose.Config{Dsn:  上面的dsn}
+var config4 = gorose.Config{Dsn:  上面的dsn}
 var configCluster = &gorose.ConfigCluster{
-    Master:  []gorose.Config{config3, config4},
-    Slave: []gorose.Config{config1, config2},
-    Driver: "sqlite3",
+Master:  []gorose.Config{config3, config4},
+Slave: []gorose.Config{config1, config2},
+Driver: "sqlite3",
 }
 ```
+
 初始化使用
+
 ```go
 var engin *gorose.Engin
 engin, err := Open(config)
 //engin, err := Open(configCluster)
 
 if err != nil {
-    panic(err.Error())
+panic(err.Error())
 }
 ```
 
-## 原生sql操作(增删改查), session的使用
-创建用户表 `users`
-```sql
-DROP TABLE IF EXISTS "users";
-CREATE TABLE "users" (
-	 "uid" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	 "name" TEXT NOT NULL,
-	 "age" integer NOT NULL
-);
+这里跳过原生操作，如果你喜欢这么操作，你也不会来用这个框架，这个框架就是简单方便，
+自动化没那么多JJYY的规矩，只要你会写Thinkphp或者Laravel，你就可以按照自己的编程习惯来开发，
+这一点上我和原作者想法是相同的
 
-INSERT INTO "users" VALUES (1, 'gorose', 18);
-INSERT INTO "users" VALUES (2, 'goroom', 18);
-INSERT INTO "users" VALUES (3, 'fizzday', 18);
-```
-定义表struct
-```go
-type Users struct {
-	Uid  int    `gorose:"uid"`
-	Name string `gorose:"name"`
-	Age  int    `gorose:"age"`
-}
-// 设置表名, 如果没有设置, 默认使用struct的名字
-func (u *Users) TableName() string {
-	return "users"
-}
-```
-原生查询操作  
-除了上边的直接返回结果集外, 还支持绑定结果到给定对象上
-```go
-// 这里是要绑定的结构体对象
-// 如果你没有定义结构体, 则可以直接使用map, map示例
-// var u = gorose.Data{}
-// var u = gorose.Map{}  这两个都是可以的
-var u Users
-session := engin.NewSession()
-// 这里Bind()是为了存放结果的, 如果你使用的是NewOrm()初始化,则可以直接使用 NewOrm().Table().Query()
-_,err := session.Bind(&u).Query("select * from users where uid=? limit 2", 1)
-fmt.Println(err)
-fmt.Println(u)
-fmt.Println(session.LastSql())
-```
-> struct字段顺序需要跟`select *`内的表结构字段顺序一致(也可以手动指定要查询的字段), 具体原因参考 [https://github.com/tobycroft/gorose-pro/issues/136](https://github.com/tobycroft/gorose-pro/issues/136)  
-
-原生增删改操作
-```go
-session.Execute("insert into users(name,age) values(?,?)(?,?)", "gorose",18,"fizzday",19)
-session.Execute("update users set name=? where uid=?","gorose",1)
-session.Execute("delete from users where uid=?", 1)
-```
 ## 对象关系映射, orm的使用
-- 1. 基本链式使用
+
+-
+    1. 基本链式使用，你可以在测试中这么使用，在做项目时我强烈建议你使用单例模式来调用，
+    2. 我对单例模式的支持度时非常深的，这也是Pro版和原版最大的区别
+    3. 如果你并不介意repetitive代码，喜欢传统MVC模式开发，请无视如上
+
 ```go
 var u Users
 db := engin.NewOrm()
-err := db.Table(&u).Fields("name").AddFields("uid","age").Distinct().Where("uid",">",0).OrWhere("age",18).
-	Group("age").Having("age>1").OrderBy("uid desc").Limit(10).Offset(1).Select()
+err := db.Table(&u).Fields("name").AddFields("uid","age").Distinct().Where("uid", ">", 0).OrWhere("age",18).
+Group("age").Having("age>1").OrderBy("uid desc").Limit(10).Offset(1).Select()
 ```
+
 也可以使用`xxx.Limit().Page()`,这个是固定用法,`Page()`必须在`Limit()`后边
-- 2. 如果不想定义struct, 又想绑定指定类型的map结果, 则可以定义map类型, 如
+
+-
+    2. 如果不想定义struct, 又想绑定指定类型的map结果, 则可以定义map类型, 如
+
 ```go
 type user gorose.Map
 // 或者 以下的type定义, 都是可以正常解析的
@@ -297,250 +275,79 @@ type users4 []map[string]string
 type users5 []gorose.Map
 type users6 []gorose.Data
 ```
+
 - 2.1 开始使用map绑定
+
 ```go
 db.Table(&user).Select()
 db.Table(&users4).Limit(5).Select()
 ```
-> 注意: 如果使用的不是slice数据结构, 则只能获取到一条数据  
+
+> 注意: 如果使用的不是slice数据结构, 则只能获取到一条数据
 
 ---
 这里使用的 gorose.Data , 实际上就是 `map[string]interface{}` 类型.  
-而 `gorose.Map`, 实际上是 `t.MapStringT` 类型, 这里出现了一个 `t` 包, 是一个golang基本数据类型的相互转换包, 请看详细介绍 http://github.com/tobycroft/t
+而 `gorose.Map`, 实际上是 `t.MapStringT` 类型, 这里出现了一个 `t` 包, 
+是一个golang基本数据类型的相互转换包, 请看详细介绍 http://github.com/gohouse/t
 
-- 3. laravel的`First()`,`Get()`, 用来返回结果集  
-也就是说, 你甚至可以不用传入各种绑定的struct和map, 直接传入表名, 返回两个参数, 一个是 `[]gorose.Map`结果集, 第二个是`error`,堪称简单粗暴  
-用法就是把上边的 `Select()` 方法换成 Get,First 即可, 只不过, `Select()` 只返回一个参数  
+-
+    3. laravel的`First()`,`Get()`, 用来返回结果集  
+    4. TP使用select和find来取回结果或者结果集，因为Select方法已经被占用，所以请按照TP的Model来理解即可
+    5. 你也可以使用直接模式来操作，就是直接填写表名, 返回两个参数, 一个是 `[]gorose.Map`结果集, 第二个是`error`,堪称简单粗暴  
+       用法就是把上边的 `Select()` 方法换成 Get,First 即可, 只不过, `Select()` 只返回一个参数
+    6. 请不要使用直接表名模式的时候还使用Select方法，取不到数据哦~
 
-- 4. orm的增删改查  
+-
+    7. orm的增删改查
+
 ```go
 db.Table(&user2).Limit(10.Select()
-db.Table(&user2).Where("uid", 1).Data(gorose.Data{"name","gorose"}).Update()
-db.Table(&user2).Data(gorose.Data{"name","gorose33"}).Insert()
-db.Table(&user2).Data([]gorose.Data{{"name","gorose33"},"name","gorose44"}).Insert()
+db.Table(&user2).Where("uid", 1).Data(gorose.Data{"name", "gorose"}).Update()
+db.Table(&user2).Data(gorose.Data{"name", "gorose33"}).Insert()
+db.Table(&user2).Data([]gorose.Data{{"name", "gorose33"}, "name", "gorose44"}).Insert()
 db.Table(&user2).Where("uid", 1).Delete()
 ```
 
 ## 最终sql构造器, builder构造不同数据库的sql
-目前支持 mysql, sqlite3, postgres, oracle, mssql, clickhouse等符合 `database/sql` 接口支持的数据库驱动  
-这一部分, 用户基本无感知, 分理出来, 主要是为了开发者可以自由添加和修改相关驱动以达到个性化的需求  
 
-## binder, 数据绑定对象  
+目前支持 mysql, sqlite3, postgres, oracle, mssql, clickhouse等符合 `database/sql` 接口支持的数据库驱动  
+这一部分, 用户基本无感知, 分理出来, 主要是为了开发者可以自由添加和修改相关驱动以达到个性化的需求
+
+## binder, 数据绑定对象
+
 这一部分也是用户无感知的, 主要是传入的绑定对象解析和数据绑定, 同样是为了开发者个性化定制而独立出来的
 
 ## 模块化
+
 gorose2.0 完全模块化, 每一个模块都封装了interface接口api, 模块间调用, 都是通过接口, 上层依赖下层
 
 - 主模块
     - engin  
-    gorose 初始化配置模块, 可以全局保存并复用
+      gorose 初始化配置模块, 可以全局保存并复用
     - session  
-    真正操作数据库底层模块, 所有的操作, 最终都会走到这里来获取或修改数据  
+      真正操作数据库底层模块, 所有的操作, 最终都会走到这里来获取或修改数据
     - orm  
-    对象关系映射模块, 所有的orm操作, 都在这里完成  
+      对象关系映射模块, 所有的orm操作, 都在这里完成
     - builder  
-    构建终极执行的sql模块, 可以构建任何数据库的sql, 但要符合`database/sql`包的接口  
+      构建终极执行的sql模块, 可以构建任何数据库的sql, 但要符合`database/sql`包的接口
 - 子模块
     - driver  
-    数据库驱动模块, 被engin和builder依赖, 根据驱动来搞事情  
+      数据库驱动模块, 被engin和builder依赖, 根据驱动来搞事情
     - binder  
-    结果集绑定模块, 所有的返回结果集都在这里  
+      结果集绑定模块, 所有的返回结果集都在这里
 
-以上主模块, 都相对独立, 可以个性化定制和替换, 只要实现相应模块的接口即可.  
+以上主模块, 都相对独立, 可以个性化定制和替换, 只要实现相应模块的接口即可.
 
-## 最佳实践
-sql
-```sql
-DROP TABLE IF EXISTS "users";
-CREATE TABLE "users" (
-	 "uid" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	 "name" TEXT NOT NULL,
-	 "age" integer NOT NULL
-);
 
-INSERT INTO "users" VALUES (1, 'gorose', 18);
-INSERT INTO "users" VALUES (2, 'goroom', 18);
-INSERT INTO "users" VALUES (3, 'fizzday', 18);
-```
-实战代码
-```go
-package main
 
-import (
-	"fmt"
-	"github.com/tobycroft/gorose-pro"
-	_ "github.com/mattn/go-sqlite3"
-)
+## 原版和Pro版本区别（原版没有的功能）+（猜你关心）
 
-type Users struct {
-    Uid int64 `gorose:"uid"`
-    Name string `gorose:"name"`
-    Age int64 `gorose:"age"`
-    Xxx interface{} `gorose:"-"` // 这个字段在orm中会忽略
-}
+- 更加适合ThinkPHP开发人员
+- 增加Nested Transaction也就是嵌套事务或者事务嵌套，目前在仿TPORM方面唯一一个支持NT功能的框架
+- 缓存支持，原版本功能已经放弃开发，本版在这个部分会使用Redis模块来支持，但是当前功能建议大家使用TuuzGoWeb来解决缓存问题
 
-func (u *Users) TableName() string {
-	return "users"
-}
-
-var err error
-var engin *gorose.Engin
-
-func init() {
-    // 全局初始化数据库,并复用
-    // 这里的engin需要全局保存,可以用全局变量,也可以用单例
-    // 配置&gorose.Config{}是单一数据库配置
-    // 如果配置读写分离集群,则使用&gorose.ConfigCluster{}
-	engin, err = gorose.Open(&gorose.Config{Driver: "sqlite3", Dsn: "./db.sqlite"})
-}
-func DB() gorose.IOrm {
-	return engin.NewOrm()
-}
-func main() {
-	// 这里定义一个变量db, 是为了复用db对象, 可以在最后使用 db.LastSql() 获取最后执行的sql
-	// 如果不复用 db, 而是直接使用 DB(), 则会新建一个orm对象, 每一次都是全新的对象
-	// 所以复用 db, 一定要在当前会话周期内
-	db := DB()
-	
-	// 查询一条
-	var u Users
-	// 查询数据并绑定到 user{} 上
-	err = db.Table(&u).Fields("uid,name,age").Where("age",">",0).OrderBy("uid desc").Select()
-	if err!=nil {
-		fmt.Println(err)
-	}
-	fmt.Println(u, u.Name)
-	fmt.Println(db.LastSql())
-	
-	// 查询多条
-	// 查询数据并绑定到 []Users 上, 这里复用了 db 及上下文条件参数
-	// 如果不想复用,则可以使用DB()就会开启全新会话,或者使用db.Reset()
-	// db.Reset()只会清除上下文参数干扰,不会更换链接,DB()则会更换链接
-	var u2 []Users
-	err = db.Table(&u2).Limit(10).Offset(1).Select()
-	fmt.Println(u2)
-	
-	// 统计数据
-	var count int64
-	// 这里reset清除上边查询的参数干扰, 可以统计所有数据, 如果不清除, 则条件为上边查询的条件
-	// 同时, 可以新调用 DB(), 也不会产生干扰
-	count,err = db.Reset().Count()
-	// 或
-	count, err = DB().Table(&u).Count()
-	fmt.Println(count, err)
-}
-```
-
-## 高级用法
-
-- Chunk 数据分片 大量数据批量处理 (累积处理)   
-
-   ` 当需要操作大量数据的时候, 一次性取出再操作, 不太合理, 就可以使用chunk方法  
-        chunk的第一个参数是指定一次操作的数据量, 根据业务量, 取100条或者1000条都可以  
-        chunk的第二个参数是一个回调方法, 用于书写正常的数据处理逻辑  
-        目的是做到, 无感知处理大量数据  
-        实现原理是, 每一次操作, 自动记录当前的操作位置, 下一次重复取数据的时候, 从当前位置开始取
-        `
-	```go
-	User := db.Table("users")
-	User.Fields("id, name").Where("id",">",2).Chunk(2, func(data []gorose.Data) error {
-	    // for _,item := range data {
-	    // 	   fmt.Println(item)
-	    // }
-	    fmt.Println(data)
-        
-        // 这里不要忘记返回错误或nil
-        return nil
-	})
-
-	// 打印结果:  
-	// map[id:3 name:gorose]
-	// map[id:4 name:fizzday]
-	// map[id:5 name:fizz3]
-	// map[id:6 name:tobycroft]
-	[map[id:3 name:gorose] map[name:fizzday id:4]]
-	[map[id:5 name:fizz3] map[id:6 name:tobycroft]]
-	```
-    
-- Loop 数据分片 大量数据批量处理 (从头处理)   
-
-	` 类似 chunk 方法, 实现原理是, 每一次操作, 都是从头开始取数据
-	原因: 当我们更改数据时, 更改的结果可能作为where条件会影响我们取数据的结果,所以, 可以使用Loop`
-    ```go
-	User := db.Table("users")
-	User.Fields("id, name").Where("id",">",2).Loop(2, func(data []gorose.Data) error {
-	    // for _,item := range data {
-	    // 	   fmt.Println(item)
-	    // }
-	    // 这里执行update / delete  等操作
-        
-        // 这里不要忘记返回错误或nil
-        return nil
-	})
-	```
-    
-- 嵌套where  
-
-	```go
-	// SELECT  * FROM users  
-	//     WHERE  id > 1 
-	//         and ( name = 'fizz' 
-	//             or ( name = 'fizz2' 
-	//                 and ( name = 'fizz3' or website like 'fizzday%')
-	//                 )
-	//             ) 
-	//     and job = 'it' LIMIT 1
-	User := db.Table("users")
-	User.Where("id", ">", 1).Where(func() {
-	        User.Where("name", "fizz").OrWhere(func() {
-	            User.Where("name", "fizz2").Where(func() {
-	                User.Where("name", "fizz3").OrWhere("website", "like", "fizzday%")
-	            })
-	        })
-	    }).Where("job", "it").First()
-	```
-- 嵌入原生sql示例  
-以下几种操作是等效的
-```go
-db.Table("users").WhereRegexp("name","\w+").BuildSql()
-db.Table("users").Where("name","regexp","\w+").BuildSql()
-db.Table("users").Where([]interface{}{"name","regexp","\w+"}).BuildSql()
-db.Table("users").Where(gorose.Data{"name regexp","\w+"}).BuildSql()
-```
-
-## 升级日志
-- v2.1.5-master:  
-    * 增加`regexp`表达式在`where`中的使用  
-
-- v2.1.4:  
-    * logger修正  
-    * 事物改进  
-    * 依赖包改为 tobycroft/golib(tobycroft/t,tobycroft/gocar)  
-- v2.1.x:  
-    * join表自动加前缀,不需要再手动加前缀  
-    * 原生sql的`query()`方法,增加返回结果集`[]map[string]interface{}`  
-- v2.0.0: 船新版本,船新架构  
-
-## 升级指南
-### 从2.0.x升级到2.1.x  
-- `xxx.Join("pre_tablename")`更改为`xxx.Join("tablename")`,这里不需要手动指定表前缀  
-- `err:=DB().Bind().Query()`,更改为多返回`res,err:=DB().Query()`,同时保留了`Bind()`用法  
-### 从1.x升级到2.x, 全新安装  
-
----
-## Jetbrains 开源支持
-`gorose` 项目一直以来都是在 JetBrains 公司旗下的 GoLand 集成开发环境中进行开发，基于 free JetBrains Open Source license(s) 正版免费授权，在此表达我的谢意。  
-[![](https://www.jetbrains.com/shop/static/images/jetbrains-logo-inv.svg)](https://www.jetbrains.com/?from=gorose)
-
------
-## 赞助渠道
-微信|支付宝|[paypal: click](https://www.paypal.me/fizzday)
----|---|---
-<img src="imgs/wechat.png" width="300">|<img src="imgs/alipay.png" width="300"> | <a href="https://www.paypal.me/fizzday"><img src="imgs/paypal.png" width="300"></a> 
-
-- 捐赠列表  
-
-total | avator 
----|---
-￥100 | [![](https://avatars1.githubusercontent.com/u/53846155?s=96&v=4)](https://github.com/sanjinhub)  
+## 故障排查
+- Gorose存在很多问题，有些问题你可能会遇到，下面列出：
+  - 请尽量不要使用框架的主从模式，无论是TP还是Gorose，他能提供的稳定性，一定是不如你直接去买RDS之类的产品的，不要试图在该花钱的时候省钱
+  - 出现锁机制：如果出现锁机制，排查起来请先看慢查询，正常如果时间太长，如果你恰好使用的是我推荐的书写模式，你就能定位超时点，对超时点进行分析即可，老版本在长期使用中确实有出现锁的问题，新版目前没有出现，但是也请大家注意，如果出现了，重启数据库即可解决，如果你对这个功能很不放心，你也可以不使用嵌套查询解决
 
