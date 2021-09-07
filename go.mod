@@ -1,4 +1,4 @@
-module gorose
+module github.com/tobycroft/gorose
 
 go 1.17
 
