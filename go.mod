@@ -1,4 +1,4 @@
-module github.com/tobycroft/gorose_pro
+module github.com/tobycroft/gorose-pro
 
 go 1.16
 
