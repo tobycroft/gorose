@@ -39,7 +39,7 @@ func Api_find(group_id, user_id, cid interface{}) gorose.Data {
 }
 ```
 
-每次查询使用外部注入的数据库对象
+每次查询使用外部注入的数据库对象，请注意这里的type
 
 ```go
 type Interface struct {
