@@ -120,6 +120,8 @@ func (b *BuilderDefault) BuildExecute(operType string) (sqlStr string, args []in
 	switch operType {
 	case "insert":
 		sqlStr = fmt.Sprintf("INSERT INTO %s (%s) VALUES %s", b.BuildTable(), insertkey, insertval)
+	case "replace":
+		sqlStr = fmt.Sprintf("REPLACE INTO %s (%s) VALUES %s", b.BuildTable(), insertkey, insertval)
 	case "update":
 		where, err = b.BuildWhere()
 		if err != nil {
