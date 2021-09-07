@@ -1,12 +1,12 @@
 # GoRose ORM
 
-[![GoDoc](https://godoc.org/github.com/gohouse/gorose/v2?status.svg)](https://godoc.org/github.com/gohouse/gorose/v2)
-[![Go Report Card](https://goreportcard.com/badge/github.com/gohouse/gorose/v2)](https://goreportcard.com/report/github.com/gohouse/gorose/v2)
-[![GitHub release](https://img.shields.io/github/release/gohouse/gorose.svg)](https://github.com/gohouse/gorose/v2/releases/latest)
-[![Gitter](https://badges.gitter.im/gohouse/gorose.svg)](https://gitter.im/gorose/wechat)
-![GitHub](https://img.shields.io/github/license/gohouse/gorose?color=blue)
-![GitHub All Releases](https://img.shields.io/github/downloads/gohouse/gorose/total?color=blue)
-<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5JJOG9E">
+[![GoDoc](https://godoc.org/github.com/tobycroft/gorose?status.svg)](https://godoc.org/github.com/tobycroft/gorose/v2)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tobycroft/gorose/v2)](https://goreportcard.com/report/github.com/tobycroft/gorose/v2)
+[![GitHub release](https://img.shields.io/github/release/tobycroft/gorose.svg)](https://github.com/tobycroft/gorose/v2/releases/latest)
+[![Gitter](https://badges.gitter.im/tobycroft/gorose.svg)](https://gitter.im/gorose/wechat)
+![GitHub](https://img.shields.io/github/license/tobycroft/gorose?color=blue)
+![GitHub All Releases](https://img.shields.io/github/downloads/tobycroft/gorose/total?color=blue)
+<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=P0R-T6lnM--WHzgvGPnbd58US3IUoDlW&jump_from=webapi">
 <img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="gorose-orm" title="gorose-orm"></a>
 
 ```
@@ -23,20 +23,23 @@
 [中文 readme](README.md) 
 
 ## 文档
-[最新版2.x文档](https://www.kancloud.cn/fizz/gorose-2/1135835) | 
-[1.x文档](https://www.kancloud.cn/fizz/gorose/769179) | 
-[0.x文档](https://gohouse.github.io/gorose/dist/en/index.html)
+[Tuuz版文档](https://www.kancloud.cn/fizz/gorose-2/1135835)
 
 
 ## 简介
-gorose是一个golang orm框架, 借鉴自laravel的eloquent. 
-gorose 2.0 采用模块化架构, 通过interface的api通信,严格的上层依赖下层.每一个模块都可以拆卸, 甚至可以自定义为自己喜欢的样子.  
+gorose for Tuuz版是我从飞哥接手过来的项目，知道人家更新了好几版然后可能有点没兴趣了，但是我是做项目的
+很多时候如果原作者不更新，我项目中有很多麻烦事都没办法解决，所以很无奈只能继续扛旗向前走了
+
+因为原版框架已经很优秀了，所以这里只会做一些更新，在架构上不会做出大调整（如果大家满意这个Pro版，请Star）
+
+
+gorosepro 采用模块化架构, 通过interface的api通信,严格的上层依赖下层.每一个模块都可以拆卸, 甚至可以自定义为自己喜欢的样子.  
 模块关系图如下:  ![gorose-2.0-design](https://i.loli.net/2019/06/19/5d0a1273f12ef86624.jpg)
 
 ## 安装
 - go.mod
 ```bash
-require github.com/gohouse/gorose/v2 v2.1.10
+require github.com/tobycroft/gorose/v2 v2.1.10
 ```
 > 重要的事情说三遍!  
     重要的事情说三遍!  
@@ -44,7 +47,7 @@ require github.com/gohouse/gorose/v2 v2.1.10
     使用的时候必须`import "github.com/tobycroft/gorose"`方可正常使用.  
     千万不要漏掉末尾的`v2`,这个是vgo的规定  
 
-> 如果使用最新更新,没有tag的话,可以使用`require github.com/gohouse/gorose/v2 master`,执行`go mod tidy`后,会自动获取最新提交的版本hash最为版本号,最终效果如:`github.com/gohouse/gorose/v2 v2.1.6-0.20200403045240-167d9094d7bd`    
+> 如果使用最新更新,没有tag的话,可以使用`require github.com/tobycroft/gorose/v2 master`,执行`go mod tidy`后,会自动获取最新提交的版本hash最为版本号,最终效果如:`github.com/tobycroft/gorose/v2 v2.1.6-0.20200403045240-167d9094d7bd`    
 
 - docker
 ```bash
@@ -54,7 +57,7 @@ docker run -it --rm ababy/gorose sh -c "go run main.go"
 
 - go get  
 ```bash
-go get -u github.com/gohouse/gorose/v2
+go get -u github.com/tobycroft/gorose/v2
 ```
 
 ## 支持驱动
@@ -191,7 +194,7 @@ fmt.Println(err)
 fmt.Println(u)
 fmt.Println(session.LastSql())
 ```
-> struct字段顺序需要跟`select *`内的表结构字段顺序一致(也可以手动指定要查询的字段), 具体原因参考 [https://github.com/gohouse/gorose/issues/136](https://github.com/gohouse/gorose/issues/136)  
+> struct字段顺序需要跟`select *`内的表结构字段顺序一致(也可以手动指定要查询的字段), 具体原因参考 [https://github.com/tobycroft/gorose/issues/136](https://github.com/tobycroft/gorose/issues/136)  
 
 原生增删改操作
 ```go
@@ -227,7 +230,7 @@ db.Table(&users4).Limit(5).Select()
 
 ---
 这里使用的 gorose.Data , 实际上就是 `map[string]interface{}` 类型.  
-而 `gorose.Map`, 实际上是 `t.MapStringT` 类型, 这里出现了一个 `t` 包, 是一个golang基本数据类型的相互转换包, 请看详细介绍 http://github.com/gohouse/t
+而 `gorose.Map`, 实际上是 `t.MapStringT` 类型, 这里出现了一个 `t` 包, 是一个golang基本数据类型的相互转换包, 请看详细介绍 http://github.com/tobycroft/t
 
 - 3. laravel的`First()`,`Get()`, 用来返回结果集  
 也就是说, 你甚至可以不用传入各种绑定的struct和map, 直接传入表名, 返回两个参数, 一个是 `[]gorose.Map`结果集, 第二个是`error`,堪称简单粗暴  
@@ -378,9 +381,9 @@ func main() {
 	// map[id:3 name:gorose]
 	// map[id:4 name:fizzday]
 	// map[id:5 name:fizz3]
-	// map[id:6 name:gohouse]
+	// map[id:6 name:tobycroft]
 	[map[id:3 name:gorose] map[name:fizzday id:4]]
-	[map[id:5 name:fizz3] map[id:6 name:gohouse]]
+	[map[id:5 name:fizz3] map[id:6 name:tobycroft]]
 	```
     
 - Loop 数据分片 大量数据批量处理 (从头处理)   
@@ -436,7 +439,7 @@ db.Table("users").Where(gorose.Data{"name regexp","\w+"}).BuildSql()
 - v2.1.4:  
     * logger修正  
     * 事物改进  
-    * 依赖包改为 gohouse/golib(gohouse/t,gohouse/gocar)  
+    * 依赖包改为 tobycroft/golib(tobycroft/t,tobycroft/gocar)  
 - v2.1.x:  
     * join表自动加前缀,不需要再手动加前缀  
     * 原生sql的`query()`方法,增加返回结果集`[]map[string]interface{}`  
