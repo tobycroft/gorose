@@ -1,8 +1,8 @@
-# GoRose ORM
+# GoRose-Pro for Commercial(商业版)
 
-[![GoDoc](https://godoc.org/github.com/tobycroft/gorose-pro?status.svg)](https://godoc.org/github.com/tobycroft/gorose-pro/v2)
-[![Go Report Card](https://goreportcard.com/badge/github.com/tobycroft/gorose-pro/v2)](https://goreportcard.com/report/github.com/tobycroft/gorose-pro/v2)
-[![GitHub release](https://img.shields.io/github/release/tobycroft/gorose.svg)](https://github.com/tobycroft/gorose-pro/v2/releases/latest)
+[![GoDoc](https://godoc.org/github.com/tobycroft/gorose-pro?status.svg)](https://godoc.org/github.com/tobycroft/gorose-pro)
+[![Go Report Card](https://goreportcard.com/badge/github.com/tobycroft/gorose-pro)](https://goreportcard.com/report/github.com/tobycroft/gorose-pro)
+[![GitHub release](https://img.shields.io/github/release/tobycroft/gorose.svg)](https://github.com/tobycroft/gorose-pro/releases/latest)
 [![Gitter](https://badges.gitter.im/tobycroft/gorose.svg)](https://gitter.im/gorose/wechat)
 ![GitHub](https://img.shields.io/github/license/tobycroft/gorose?color=blue)
 ![GitHub All Releases](https://img.shields.io/github/downloads/tobycroft/gorose/total?color=blue)
@@ -39,7 +39,7 @@ gorosepro 采用模块化架构, 通过interface的api通信,严格的上层依�
 ## 安装
 - go.mod
 ```bash
-require github.com/tobycroft/gorose-pro/v2 v2.1.10
+require github.com/tobycroft/gorose-pro v1.2.5
 ```
 > 重要的事情说三遍!  
     重要的事情说三遍!  
@@ -57,7 +57,7 @@ docker run -it --rm ababy/gorose sh -c "go run main.go"
 
 - go get  
 ```bash
-go get -u github.com/tobycroft/gorose-pro/v2
+go get -u github.com/tobycroft/gorose-pro
 ```
 
 ## 支持驱动
@@ -76,7 +76,7 @@ db.Table().Data().Where().Update()
 db.Table().Where().Delete()
 ```
 
-## 简单用法示例
+## Thinkphp模式用法示例
 ```go
 package main
 import (
@@ -84,43 +84,135 @@ import (
 	"github.com/tobycroft/gorose-pro"
 	_ "github.com/mattn/go-sqlite3"
 )
-var err error
-var engin *gorose.Engin
-func init() {
-    // 全局初始化数据库,并复用
-    // 这里的engin需要全局保存,可以用全局变量,也可以用单例
-    // 配置&gorose.Config{}是单一数据库配置
-    // 如果配置读写分离集群,则使用&gorose.ConfigCluster{}
-	engin, err = gorose.Open(&gorose.Config{Driver: "sqlite3", Dsn: "./db.sqlite"})
-    // mysql示例, 记得导入mysql驱动 github.com/go-sql-driver/mysql
-	// engin, err = gorose.Open(&gorose.Config{Driver: "mysql", Dsn: "root:root@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=true"})
-}
-func DB() gorose.IOrm {
-	return engin.NewOrm()
-}
-func main() {
-    // 原生sql, 直接返回结果集
-    res,err := DB().Query("select * from users where uid>? limit 2", 1)
-    fmt.Println(res)
-    affected_rows,err := DB().Execute("delete from users where uid=?", 1)
-    fmt.Println(affected_rows, err)
 
-    // orm链式操作,查询单条数据
-    res, err = DB().Table("users").First()
-    // res 类型为 map[string]interface{}
-    fmt.Println(res)
-    
-    // orm链式操作,查询多条数据
-    res2, _ := DB().Table("users").Get()
-    // res2 类型为 []map[string]interface{}
-    fmt.Println(res2)
+func dsn() string {
+    dbname := "GobotQ2"
+    dbuser := "GobotQ"
+    dbpass := "123456"
+    dbhost := "10.0.0.170"
+    conntype := "tcp"
+    dbport := "3306"
+    charset := "utf8mb4"
+    return dbuser + ":" + dbpass + "@" + conntype + "(" + dbhost + ":" + dbport + ")/" + dbname + "?charset=" + charset + "&parseTime=true"
 }
+
+func DbConfig() *gorose.Config {
+    var conf gorose.Config
+    conf.Driver = "mysql"
+    conf.SetMaxIdleConns = 90
+    conf.SetMaxOpenConns = 300
+    conf.Prefix = ""
+    conf.Dsn = dsn_local()
+    return &conf
+}
+
+func init() {
+    var err error
+    Database, err = gorose.Open(DbConfig())
+    if err != nil {
+        log.Panic(err)
+    }
+}
+
+func DB() gorose.IOrm {
+    return database.Database.NewOrm()
+}
+
+//这里是Model层，Model采用单例模式
+
+//增
+func Api_insert(qq, token, ip interface{}) bool {
+    db := tuuz.Db().Table(table)
+    data := map[string]interface{}{
+        "qq":    qq,
+        "token": token,
+        "ip":    ip,
+    }
+    db.Data(data)
+    _, err := db.Insert()
+    if err != nil {
+        Log.Dbrr(err, tuuz.FUNCTION_ALL())
+        return false
+    } else {
+        return true
+    }
+}
+
+//删
+func Api_delete_byToken(qq, token interface{}) bool {
+    db := tuuz.Db().Table(table)
+    where := map[string]interface{}{
+        "qq":    qq,
+        "token": token,
+    }
+    db.Where(where)
+    _, err := db.Delete()
+    if err != nil {
+        Log.Dbrr(err, tuuz.FUNCTION_ALL())
+        return false
+    } else {
+        return true
+    }
+}
+
+//修改
+func Api_update_password(qq, password interface{}) bool {
+    db := tuuz.Db().Table(table)
+    where := map[string]interface{}{
+        "qq": qq,
+    }
+    db.Where(where)
+    data := map[string]interface{}{
+        "password": password,
+    }
+    db.Data(data)
+    _, err := db.Update()
+    if err != nil {
+        Log.Dbrr(err, tuuz.FUNCTION_ALL())
+        return false
+    } else {
+        return true
+    }
+}
+
+//查询单条
+func Api_find(qq interface{}) gorose.Data {
+    db := tuuz.Db().Table(table)
+    where := map[string]interface{}{
+        "qq": qq,
+    }
+    db.Where(where)
+    ret, err := db.First()
+    if err != nil {
+        Log.Dbrr(err, tuuz.FUNCTION_ALL())
+        return nil
+    } else {
+        return ret
+    }
+}
+//查询多条
+func Api_select(qq interface{}) []gorose.Data {
+    db := tuuz.Db().Table(table)
+    where := map[string]interface{}{
+        "qq": qq,
+    }
+    db.Where(where)
+    ret, err := db.Get()
+    if err != nil {
+        Log.Dbrr(err, tuuz.FUNCTION_ALL())
+        return nil
+    } else {
+        return ret
+    }
+}
+
 ```
 
 ## 使用建议
-gorose提供数据对象绑定(map, struct), 同时支持字符串表名和map数据返回. 提供了很大的灵活性  
-建议优先采用数据绑定的方式来完成查询操作, 做到数据源类型可控  
-gorose提供了默认的 `gorose.Map` 和 `gorose.Data` 类型, 用来方便初始化绑定和data
+如果你的数据返回处理比较复杂，并且是“Long Term”项目，这里建议用原版Gorose方法处理，因为我大多数是外包项目，
+Thinkphp类似的操作方法可以大大降低编码复杂性
+
+另外如上的单例模式极好理解，你也可以使用你自己的方式来编写
 
 ## 配置和链接初始化
 简单配置
