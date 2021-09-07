@@ -4,13 +4,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/gohouse/t"
 	"reflect"
 	"strconv"
 	"strings"
 	"sync/atomic"
 	"time"
-
-	"github.com/gohouse/t"
 )
 
 const beginStatus = 0
@@ -414,6 +413,7 @@ func (s *Session) scanMapAll(rows *sql.Rows) (err error) {
 					br.SetMapIndex(reflect.ValueOf(col), reflect.ValueOf(t.New(v)))
 					// 跟上一行干的事是一样的, 只不过防止上一行的数据被后续的数据改变, 而无法提供给下边多条数据报错的需要
 					if s.GetBindType() == OBJECT_MAP_SLICE || s.GetBindType() == OBJECT_MAP_SLICE_T {
+
 						bindResultTmp.SetMapIndex(reflect.ValueOf(col), reflect.ValueOf(t.New(v)))
 					}
 				default: // 普通类型map[string]interface{}, 具体代码注释参照 上一个 case
