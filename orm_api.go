@@ -1,4 +1,4 @@
-package gorose
+package gorose_pro
 
 // OrmApi ...
 type OrmApi struct {

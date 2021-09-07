@@ -1,4 +1,4 @@
-package gorose
+package gorose_pro
 
 import (
 	"errors"
@@ -20,11 +20,11 @@ type BuilderDefault struct {
 	placeholder int
 	driver      string
 	bindValues  []interface{}
-	current IBuilder
+	current     IBuilder
 }
 
 // NewBuilderDefault 初始化
-func NewBuilderDefault(o IOrm,current IBuilder) *BuilderDefault {
+func NewBuilderDefault(o IOrm, current IBuilder) *BuilderDefault {
 	//onceBuilderDefault.Do(func() {
 	//	builderDefault = new(BuilderDefault)
 	//	builderDefault.operator = operator
@@ -296,7 +296,7 @@ func (b *BuilderDefault) parseData(operType string, data []map[string]interface{
 		insertValues = append(insertValues, "("+strings.Join(insertValuesSub, ",")+")")
 	}
 	var tmpInsertFields = insertFields[:0]
-	for _,v := range insertFields {
+	for _, v := range insertFields {
 		tmpInsertFields = append(tmpInsertFields, b.current.AddFieldQuotes(v))
 	}
 	return strings.Join(dataObj, ","), strings.Join(tmpInsertFields, ","), strings.Join(insertValues, ",")

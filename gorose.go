@@ -1,4 +1,4 @@
-package gorose
+package gorose_pro
 
 // GOROSE_IMG ...
 const GOROSE_IMG = `

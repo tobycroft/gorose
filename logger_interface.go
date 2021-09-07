@@ -1,8 +1,8 @@
-package gorose
+package gorose_pro
 
 import (
-	"time"
 	"io"
+	"time"
 )
 
 // ILogger ...
@@ -14,7 +14,6 @@ type ILogger interface {
 	EnableErrorLog() bool
 	EnableSlowLog() float64
 }
-
 
 // 暂时规划
 type ilogger interface {

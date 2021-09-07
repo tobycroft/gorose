@@ -1,4 +1,4 @@
-package gorose
+package gorose_pro
 
 import (
 	"fmt"
@@ -20,7 +20,6 @@ type IFieldQuotes interface {
 }
 
 type FieldQuotesDefault struct {
-
 }
 
 func (FieldQuotesDefault) AddFieldQuotes(field string) string {
