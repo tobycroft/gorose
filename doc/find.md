@@ -48,6 +48,6 @@ find方法十分的简单，没有难度，相信大家会很快上手
 
 4.[delete方法](./delete.md)
 
-5.[复杂数据方法/join/sum/递增](./join.md)
+5.[insert方法](./insert.md)
 
 6.[安全相关](./security.md)
