@@ -25,6 +25,11 @@ func (dba *Orm) Update(data ...interface{}) (int64, error) {
 	return dba.exec("update", data...)
 }
 
+// Replace : replace data and get affected rows
+func (dba *Orm) Replace(data ...interface{}) (int64, error) {
+	return dba.exec("replace", data...)
+}
+
 // Force 强制执行没有where的删除和修改
 func (dba *Orm) Force() IOrm {
 	dba.force = true
