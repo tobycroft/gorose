@@ -108,13 +108,12 @@ func (s *Session) Begin() (err error) {
 	if s.tx == nil {
 		s.tx, err = s.master.Begin()
 	} else {
-		num := atomic.LoadInt64(&s.tx_index)
+		num := atomic.AddInt64(&s.tx_index, 1)
 		err = s.SavePoint("sp_" + strconv.FormatInt(num, 10))
 		if err != nil {
 			s.GetIEngin().GetLogger().Error(err.Error())
 			return
 		} else {
-			atomic.AddInt64(&s.tx_index, 1)
 		}
 	}
 	return
